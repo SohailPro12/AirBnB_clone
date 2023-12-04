@@ -1,7 +1,8 @@
 <h1>  AirBnB clone - The console </h1>
 
 <hr />
-![65f4a1dd9c51265f49d0](https://github.com/SohailPro12/AirBnB_clone/assets/131702341/30ea9273-02cb-4f18-a3ef-d6f706d366c2)
+
+![65f4a1dd9c51265f49d0](https://github.com/SohailPro12/AirBnB_clone/assets/131702341/a8b07f57-96ce-4b93-a259-5fcf9bfccaf2)
 
 <h2> Description </h2>
 
