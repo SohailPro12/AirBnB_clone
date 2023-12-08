@@ -4,6 +4,7 @@
 import cmd
 from models.base_model import BaseModel
 from models import storage
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -11,7 +12,8 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     classes = {
-        "BaseModel": BaseModel
+        "BaseModel": BaseModel,
+        "User": User
     }
 
     def do_quit(self, line):
@@ -98,7 +100,10 @@ class HBNBCommand(cmd.Cmd):
         args = line.split()
         if not args:
             objs = [str(obj) for obj in storage.all().values()]
-            print(objs)
+            if not objs:
+                return
+            else:
+                print(objs)
         elif args[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
         else:
