@@ -5,7 +5,6 @@ Define a BaseModel class
 that defines all common attributes/methods for other classes
 """
 
-from models import storage
 import uuid
 from datetime import datetime
 
@@ -25,6 +24,8 @@ class BaseModel:
            *args: arguments (unused)
            **kwargs: key word arguments
         """
+        from models import storage
+
         ch = "%Y-%m-%dT%H:%M:%S.%f"
         if kwargs:
             if "id" not in kwargs:
@@ -51,6 +52,8 @@ class BaseModel:
 
     def save(self):
         """the current datetime"""
+        from models import storage
+
         self.updated_at = datetime.now()
         storage.save()
 
