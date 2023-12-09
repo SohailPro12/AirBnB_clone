@@ -103,6 +103,13 @@ class HBNBCommand(cmd.Cmd):
         del storage.all()[key]
         storage.save()
 
+    def precmd(self, line):
+        if "." in line:
+            line = line.replace(".", " ").line.replace("(", "").line.replace(".", ")")
+            line = line.split(" ")
+            line = ("{} {}").format(line[1], line[0])
+        return cmd.Cmd.precmd(self, line)
+
     def do_all(self, line):
         """
         Prints all string representation of instances
