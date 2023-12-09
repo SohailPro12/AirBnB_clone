@@ -10,7 +10,8 @@ from datetime import datetime
 
 
 class BaseModel:
-    """Parent class
+    """
+    Parent class
 
     Args:
         id: a unique identifier
@@ -18,7 +19,8 @@ class BaseModel:
         updated_at: when did we updated it
     """
     def __init__(self, *args, **kwargs):
-        """initialize all attributes
+        """
+        initialize all attributes
 
         Args:
            *args: arguments (unused)
