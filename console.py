@@ -110,6 +110,24 @@ class HBNBCommand(cmd.Cmd):
             Theclass_name = arguments[0]
             if Theclass_name in HBNBCommand.classes:
                 self.do_all(Theclass_name)
+        elif '.' in line and 'count()' in line:
+            arguments = line.split(".")
+            Theclass_name = arguments[0]
+            if Theclass_name in HBNBCommand.classes:
+                self.do_count(Theclass_name)
+
+    def do_count(self, arg):
+        """
+        Counts the number of instances of a class.
+        
+        Args:
+            arg: the name of the class.
+        """
+        count = 0
+        for obj in storage.all().values():
+            if obj.__class__.__name__ == arg:
+                count += 1
+        print(count)
 
     def do_all(self, line):
         """
