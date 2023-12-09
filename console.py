@@ -103,12 +103,13 @@ class HBNBCommand(cmd.Cmd):
         del storage.all()[key]
         storage.save()
 
-    def precmd(self, line):
-        if "." in line:
-            line = line.replace(".", " ").line.replace("(", "").line.replace(".", ")")
-            line = line.split(" ")
-            line = ("{} {}").format(line[1], line[0])
-        return cmd.Cmd.precmd(self, line)
+    def default(self, line):
+        """handle <class name>.all()"""
+        if '.' in line and 'all()' in line:
+            arguments = line.split(".")
+            Theclass_name = arguments[0]
+            if Theclass_name in HBNBCommand.classes:
+                self.do_all(Theclass_name)
 
     def do_all(self, line):
         """
