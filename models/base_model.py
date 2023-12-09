@@ -60,7 +60,7 @@ class BaseModel:
     def to_dict(self):
         """returns a dictionary containing all keys/values"""
         mydic = self.__dict__.copy()
-        mydic["__class__ "] = self.__class__.__name__
+        mydic["__class__"] = self.__class__.__name__
         mydic["created_at"] = mydic["created_at"].isoformat()
         mydic["updated_at"] = mydic["updated_at"].isoformat()
         return mydic
