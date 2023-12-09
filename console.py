@@ -27,11 +27,11 @@ class HBNBCommand(cmd.Cmd):
     }
 
     def do_quit(self, line):
-        """Quit command to exit the program"""
+        """ Quit command to exit the program """
         return True
 
     def do_EOF(self, line):
-        """Quit command to exit the program"""
+        """ Quit command to exit the program """
         return True
 
     def emptyline(self):
@@ -55,8 +55,9 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
 
     def do_show(self, line):
-        """ Prints the string representation of an instance
-        based on the class name and id
+        """
+        Prints the string representation of an instance
+        based on the class name and id.
         """
         args = line.split()
 
@@ -79,8 +80,8 @@ class HBNBCommand(cmd.Cmd):
         print(storage.all()[key])
 
     def do_destroy(self, line):
-        """Deletes an instance based on the class name and id
-        (save the change into the JSON file).
+        """
+        Deletes an instance based on the class name and id.
         """
         args = line.split()
 
@@ -104,7 +105,7 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
 
     def default(self, line):
-        """handle <class name>.all()"""
+        """handle <class name>.all() and <class name>.count()"""
         if '.' in line and 'all()' in line:
             arguments = line.split(".")
             Theclass_name = arguments[0]
@@ -119,7 +120,7 @@ class HBNBCommand(cmd.Cmd):
     def do_count(self, arg):
         """
         Counts the number of instances of a class.
-        
+
         Args:
             arg: the name of the class.
         """
@@ -150,8 +151,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, line):
         """
         Updates an instance based on the class name and id
-        by adding or updating attribute
-        (save the change into the JSON file)
+        by adding or updating attribute.
         """
         args = line.split()
         if not args:
