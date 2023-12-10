@@ -111,11 +111,24 @@ class HBNBCommand(cmd.Cmd):
             Theclass_name = arguments[0]
             if Theclass_name in HBNBCommand.classes:
                 self.do_all(Theclass_name)
+
         elif '.' in line and 'count()' in line:
             arguments = line.split(".")
             Theclass_name = arguments[0]
             if Theclass_name in HBNBCommand.classes:
                 self.do_count(Theclass_name)
+        
+        elif '.' in line and 'show' in line:
+            line = line.replace(".", " ").replace("("," ").replace(")","").replace("\"", "")
+            arguments = line.split(" ")
+            Theclass_name = arguments[0]
+            Theclass_id = arguments[2]
+            new_line = Theclass_name + " " + Theclass_id
+
+            if Theclass_name in HBNBCommand.classes:
+                self.do_show(new_line)
+
+
 
     def do_count(self, arg):
         """
