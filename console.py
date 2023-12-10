@@ -117,9 +117,10 @@ class HBNBCommand(cmd.Cmd):
             Theclass_name = arguments[0]
             if Theclass_name in HBNBCommand.classes:
                 self.do_count(Theclass_name)
-        
+
         elif '.' in line and 'show' in line:
-            line = line.replace(".", " ").replace("("," ").replace(")","").replace("\"", "")
+            line = line.replace(".", " ").replace("(", " ")
+            line = line.replace(")", "").replace("\"", "")
             arguments = line.split(" ")
             Theclass_name = arguments[0]
             Theclass_id = arguments[2]
@@ -128,13 +129,27 @@ class HBNBCommand(cmd.Cmd):
                 self.do_show(new_line)
 
         elif '.' in line and 'destroy' in line:
-            line = line.replace(".", " ").replace("("," ").replace(")","").replace("\"", "")
+            line = line.replace(".", " ").replace("(", " ")
+            line = line.replace(")", "").replace("\"", "")
             arguments = line.split(" ")
             Theclass_name = arguments[0]
             Theclass_id = arguments[2]
             new_line = Theclass_name + " " + Theclass_id
             if Theclass_name in HBNBCommand.classes:
                 self.do_destroy(new_line)
+
+        elif '.' in line and 'update' in line:
+            line = line.replace(".", " ").replace("(", " ")
+            line = line.replace(")", "").replace("\"", "")
+            arguments = line.split(" ")
+            Theclass_name = arguments[0]
+            Theclass_id = arguments[2]
+            attribute_name = arguments[3]
+            attribute_value = arguments[4]
+            new_line = (Theclass_name + " " + Theclass_id + " " +
+                        attribute_name + " " + attribute_value)
+            if Theclass_name in HBNBCommand.classes:
+                self.do_update(new_line)
 
     def do_count(self, arg):
         """
