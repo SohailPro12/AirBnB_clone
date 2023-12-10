@@ -56,8 +56,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """
-        Prints the string representation of an instance
-        based on the class name and id.
+        Displays a textual representation of an object
+        given its class name and identifier.
         """
         args = line.split()
 
@@ -184,8 +184,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """
-        Updates an instance based on the class name and id
-        by adding or updating attribute.
+        Modifies an object based on its class name
+        and ID, either by adding new attributes
+        or updating existing ones.
         """
         args = line.split()
         if not args:
