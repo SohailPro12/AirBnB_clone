@@ -124,11 +124,17 @@ class HBNBCommand(cmd.Cmd):
             Theclass_name = arguments[0]
             Theclass_id = arguments[2]
             new_line = Theclass_name + " " + Theclass_id
-
             if Theclass_name in HBNBCommand.classes:
                 self.do_show(new_line)
 
-
+        elif '.' in line and 'destroy' in line:
+            line = line.replace(".", " ").replace("("," ").replace(")","").replace("\"", "")
+            arguments = line.split(" ")
+            Theclass_name = arguments[0]
+            Theclass_id = arguments[2]
+            new_line = Theclass_name + " " + Theclass_id
+            if Theclass_name in HBNBCommand.classes:
+                self.do_destroy(new_line)
 
     def do_count(self, arg):
         """
