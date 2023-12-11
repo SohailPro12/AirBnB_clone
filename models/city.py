@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Define ciy class """
+""" Define City class """
 
 from models.base_model import BaseModel
 
