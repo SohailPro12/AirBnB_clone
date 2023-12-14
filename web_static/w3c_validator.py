@@ -1,1 +1,131 @@
-{"payload":{"allShortcutsEnabled":false,"fileTree":{"":{"items":[{"name":"README.md","path":"README.md","contentType":"file"},{"name":"w3c_validator.py","path":"w3c_validator.py","contentType":"file"}],"totalCount":2}},"fileTreeProcessingTime":2.212821,"foldersToFetch":[],"reducedMotionEnabled":null,"repo":{"id":81402073,"defaultBranch":"master","name":"W3C-Validator","ownerLogin":"alx-tools","currentUserCanPush":false,"isFork":false,"isEmpty":false,"createdAt":"2017-02-09T02:57:27.000Z","ownerAvatar":"https://avatars.githubusercontent.com/u/13408012?v=4","public":true,"private":false,"isOrgOwned":true},"symbolsExpanded":false,"treeExpanded":true,"refInfo":{"name":"master","listCacheKey":"v0:1612928180.951318","canEdit":false,"refType":"branch","currentOid":"89ee8e6e8f61403af16e83901eb24001639ade2f"},"path":"w3c_validator.py","currentUser":null,"blob":{"rawLines":["#!/usr/bin/python3","\"\"\"","W3C validator for Holberton School","","For HTML and CSS files.","","Based on 1 API:","- https://validator.w3.org/docs/api.html","","Usage:","","Simple file:","","```","./w3c_validator.py index.html","```","","Multiple files:","","```","./w3c_validator.py index.html header.html styles/common.css","```","","All errors are printed in `STDERR`","","Return:","Exit status is the # of errors, 0 on Success","\"\"\"","import sys","import requests","import os","","","def __print_stdout(msg):","    \"\"\"Print message in STDOUT","    \"\"\"","    sys.stdout.buffer.write(msg.encode('utf-8'))","","","def __print_stderr(msg):","    \"\"\"Print message in STDERR","    \"\"\"","    sys.stderr.buffer.write(msg.encode('utf-8'))","","","def __is_empty(file):","    if os.path.getsize(file) == 0:","        raise OSError(\"File '{}' is empty.\".format(file))","","","def __validate(file_path, type):","    \"\"\"","    Start validation of files","    \"\"\"","    h = {'Content-Type': \"{}; charset=utf-8\".format(type)}","    # Open files in binary mode:","    # https://requests.readthedocs.io/en/master/user/advanced/","    d = open(file_path, \"rb\").read()","    u = \"https://validator.w3.org/nu/?out=json\"","    r = requests.post(u, headers=h, data=d)","","    if not r.status_code < 400:","        raise ConnectionError(\"Unable to connect to API endpoint.\")","","    res = []","    messages = r.json().get('messages', [])","    for m in messages:","        # Capture files that have incomplete or broken HTML","        if m['type'] == 'error' or m['type'] == 'info':","            res.append(\"'{}' => {}\".format(file_path, m['message']))","        else:","            res.append(\"[{}:{}] {}\".format(","                file_path, m['lastLine'], m['message']))","    return res","","","def __analyse(file_path):","    \"\"\"Start analyse of a file and print the result","    \"\"\"","    nb_errors = 0","    try:","        result = None","","        if file_path.endswith(\".css\"):","            __is_empty(file_path)","            result = __validate(file_path, \"text/css\")","        elif file_path.endswith((\".html\", \".htm\")):","            __is_empty(file_path)","            result = __validate(file_path, \"text/html\")","        elif file_path.endswith(\".svg\"):","            __is_empty(file_path)","            result = __validate(file_path, \"image/svg+xml\")","        else:","            allowed_files = \"'.css', '.html', '.htm' and '.svg'\"","            raise OSError(","                \"File {} does not have a valid file extension.\\nOnly {} are \"","                \"allowed.\".format(file_path, allowed_files)","            )","","        if len(result) > 0:","            for msg in result:","                __print_stderr(\"{}\\n\".format(msg))","                nb_errors += 1","        else:","            __print_stdout(\"'{}' => OK\\n\".format(file_path))","","    except Exception as e:","        __print_stderr(\"'{}' => {}\\n\".format(e.__class__.__name__, e))","    return nb_errors","","","def __files_loop():","    \"\"\"Loop that analyses for each file from input arguments","    \"\"\"","    nb_errors = 0","    for file_path in sys.argv[1:]:","        nb_errors += __analyse(file_path)","","    return nb_errors","","","if __name__ == \"__main__\":","    \"\"\"Main","    \"\"\"","    if len(sys.argv) < 2:","        __print_stderr(\"usage: w3c_validator.py file1 file2 ...\\n\")","        exit(1)","","    \"\"\"execute tests, then exit. Exit status = # of errors (0 on success)","    \"\"\"","    sys.exit(__files_loop())"],"stylingDirectives":[[{"start":0,"end":18,"cssClass":"pl-c"}],[{"start":0,"end":3,"cssClass":"pl-s"}],[{"start":0,"end":34,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":23,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":15,"cssClass":"pl-s"}],[{"start":0,"end":40,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":6,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":12,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":3,"cssClass":"pl-s"}],[{"start":0,"end":29,"cssClass":"pl-s"}],[{"start":0,"end":3,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":15,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":3,"cssClass":"pl-s"}],[{"start":0,"end":59,"cssClass":"pl-s"}],[{"start":0,"end":3,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":34,"cssClass":"pl-s"}],[{"start":0,"end":0,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":0,"end":44,"cssClass":"pl-s"}],[{"start":0,"end":3,"cssClass":"pl-s"}],[{"start":0,"end":6,"cssClass":"pl-k"},{"start":7,"end":10,"cssClass":"pl-s1"}],[{"start":0,"end":6,"cssClass":"pl-k"},{"start":7,"end":15,"cssClass":"pl-s1"}],[{"start":0,"end":6,"cssClass":"pl-k"},{"start":7,"end":9,"cssClass":"pl-s1"}],[],[],[{"start":0,"end":3,"cssClass":"pl-k"},{"start":4,"end":18,"cssClass":"pl-en"},{"start":19,"end":22,"cssClass":"pl-s1"}],[{"start":4,"end":30,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":4,"end":7,"cssClass":"pl-s1"},{"start":8,"end":14,"cssClass":"pl-s1"},{"start":15,"end":21,"cssClass":"pl-s1"},{"start":22,"end":27,"cssClass":"pl-en"},{"start":28,"end":31,"cssClass":"pl-s1"},{"start":32,"end":38,"cssClass":"pl-en"},{"start":39,"end":46,"cssClass":"pl-s"}],[],[],[{"start":0,"end":3,"cssClass":"pl-k"},{"start":4,"end":18,"cssClass":"pl-en"},{"start":19,"end":22,"cssClass":"pl-s1"}],[{"start":4,"end":30,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":4,"end":7,"cssClass":"pl-s1"},{"start":8,"end":14,"cssClass":"pl-s1"},{"start":15,"end":21,"cssClass":"pl-s1"},{"start":22,"end":27,"cssClass":"pl-en"},{"start":28,"end":31,"cssClass":"pl-s1"},{"start":32,"end":38,"cssClass":"pl-en"},{"start":39,"end":46,"cssClass":"pl-s"}],[],[],[{"start":0,"end":3,"cssClass":"pl-k"},{"start":4,"end":14,"cssClass":"pl-en"},{"start":15,"end":19,"cssClass":"pl-s1"}],[{"start":4,"end":6,"cssClass":"pl-k"},{"start":7,"end":9,"cssClass":"pl-s1"},{"start":10,"end":14,"cssClass":"pl-s1"},{"start":15,"end":22,"cssClass":"pl-en"},{"start":23,"end":27,"cssClass":"pl-s1"},{"start":29,"end":31,"cssClass":"pl-c1"},{"start":32,"end":33,"cssClass":"pl-c1"}],[{"start":8,"end":13,"cssClass":"pl-k"},{"start":14,"end":21,"cssClass":"pl-v"},{"start":22,"end":43,"cssClass":"pl-s"},{"start":44,"end":50,"cssClass":"pl-en"},{"start":51,"end":55,"cssClass":"pl-s1"}],[],[],[{"start":0,"end":3,"cssClass":"pl-k"},{"start":4,"end":14,"cssClass":"pl-en"},{"start":15,"end":24,"cssClass":"pl-s1"},{"start":26,"end":30,"cssClass":"pl-s1"}],[{"start":4,"end":7,"cssClass":"pl-s"}],[{"start":0,"end":29,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":4,"end":5,"cssClass":"pl-s1"},{"start":6,"end":7,"cssClass":"pl-c1"},{"start":9,"end":23,"cssClass":"pl-s"},{"start":25,"end":44,"cssClass":"pl-s"},{"start":45,"end":51,"cssClass":"pl-en"},{"start":52,"end":56,"cssClass":"pl-s1"}],[{"start":4,"end":32,"cssClass":"pl-c"}],[{"start":4,"end":62,"cssClass":"pl-c"}],[{"start":4,"end":5,"cssClass":"pl-s1"},{"start":6,"end":7,"cssClass":"pl-c1"},{"start":8,"end":12,"cssClass":"pl-en"},{"start":13,"end":22,"cssClass":"pl-s1"},{"start":24,"end":28,"cssClass":"pl-s"},{"start":30,"end":34,"cssClass":"pl-en"}],[{"start":4,"end":5,"cssClass":"pl-s1"},{"start":6,"end":7,"cssClass":"pl-c1"},{"start":8,"end":47,"cssClass":"pl-s"}],[{"start":4,"end":5,"cssClass":"pl-s1"},{"start":6,"end":7,"cssClass":"pl-c1"},{"start":8,"end":16,"cssClass":"pl-s1"},{"start":17,"end":21,"cssClass":"pl-en"},{"start":22,"end":23,"cssClass":"pl-s1"},{"start":25,"end":32,"cssClass":"pl-s1"},{"start":32,"end":33,"cssClass":"pl-c1"},{"start":33,"end":34,"cssClass":"pl-s1"},{"start":36,"end":40,"cssClass":"pl-s1"},{"start":40,"end":41,"cssClass":"pl-c1"},{"start":41,"end":42,"cssClass":"pl-s1"}],[],[{"start":4,"end":6,"cssClass":"pl-k"},{"start":7,"end":10,"cssClass":"pl-c1"},{"start":11,"end":12,"cssClass":"pl-s1"},{"start":13,"end":24,"cssClass":"pl-s1"},{"start":25,"end":26,"cssClass":"pl-c1"},{"start":27,"end":30,"cssClass":"pl-c1"}],[{"start":8,"end":13,"cssClass":"pl-k"},{"start":14,"end":29,"cssClass":"pl-v"},{"start":30,"end":66,"cssClass":"pl-s"}],[],[{"start":4,"end":7,"cssClass":"pl-s1"},{"start":8,"end":9,"cssClass":"pl-c1"}],[{"start":4,"end":12,"cssClass":"pl-s1"},{"start":13,"end":14,"cssClass":"pl-c1"},{"start":15,"end":16,"cssClass":"pl-s1"},{"start":17,"end":21,"cssClass":"pl-en"},{"start":24,"end":27,"cssClass":"pl-en"},{"start":28,"end":38,"cssClass":"pl-s"}],[{"start":4,"end":7,"cssClass":"pl-k"},{"start":8,"end":9,"cssClass":"pl-s1"},{"start":10,"end":12,"cssClass":"pl-c1"},{"start":13,"end":21,"cssClass":"pl-s1"}],[{"start":8,"end":59,"cssClass":"pl-c"}],[{"start":8,"end":10,"cssClass":"pl-k"},{"start":11,"end":12,"cssClass":"pl-s1"},{"start":13,"end":19,"cssClass":"pl-s"},{"start":21,"end":23,"cssClass":"pl-c1"},{"start":24,"end":31,"cssClass":"pl-s"},{"start":32,"end":34,"cssClass":"pl-c1"},{"start":35,"end":36,"cssClass":"pl-s1"},{"start":37,"end":43,"cssClass":"pl-s"},{"start":45,"end":47,"cssClass":"pl-c1"},{"start":48,"end":54,"cssClass":"pl-s"}],[{"start":12,"end":15,"cssClass":"pl-s1"},{"start":16,"end":22,"cssClass":"pl-en"},{"start":23,"end":35,"cssClass":"pl-s"},{"start":36,"end":42,"cssClass":"pl-en"},{"start":43,"end":52,"cssClass":"pl-s1"},{"start":54,"end":55,"cssClass":"pl-s1"},{"start":56,"end":65,"cssClass":"pl-s"}],[{"start":8,"end":12,"cssClass":"pl-k"}],[{"start":12,"end":15,"cssClass":"pl-s1"},{"start":16,"end":22,"cssClass":"pl-en"},{"start":23,"end":35,"cssClass":"pl-s"},{"start":36,"end":42,"cssClass":"pl-en"}],[{"start":16,"end":25,"cssClass":"pl-s1"},{"start":27,"end":28,"cssClass":"pl-s1"},{"start":29,"end":39,"cssClass":"pl-s"},{"start":42,"end":43,"cssClass":"pl-s1"},{"start":44,"end":53,"cssClass":"pl-s"}],[{"start":4,"end":10,"cssClass":"pl-k"},{"start":11,"end":14,"cssClass":"pl-s1"}],[],[],[{"start":0,"end":3,"cssClass":"pl-k"},{"start":4,"end":13,"cssClass":"pl-en"},{"start":14,"end":23,"cssClass":"pl-s1"}],[{"start":4,"end":51,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":4,"end":13,"cssClass":"pl-s1"},{"start":14,"end":15,"cssClass":"pl-c1"},{"start":16,"end":17,"cssClass":"pl-c1"}],[{"start":4,"end":7,"cssClass":"pl-k"}],[{"start":8,"end":14,"cssClass":"pl-s1"},{"start":15,"end":16,"cssClass":"pl-c1"},{"start":17,"end":21,"cssClass":"pl-c1"}],[],[{"start":8,"end":10,"cssClass":"pl-k"},{"start":11,"end":20,"cssClass":"pl-s1"},{"start":21,"end":29,"cssClass":"pl-en"},{"start":30,"end":36,"cssClass":"pl-s"}],[{"start":12,"end":22,"cssClass":"pl-en"},{"start":23,"end":32,"cssClass":"pl-s1"}],[{"start":12,"end":18,"cssClass":"pl-s1"},{"start":19,"end":20,"cssClass":"pl-c1"},{"start":21,"end":31,"cssClass":"pl-en"},{"start":32,"end":41,"cssClass":"pl-s1"},{"start":43,"end":53,"cssClass":"pl-s"}],[{"start":8,"end":12,"cssClass":"pl-k"},{"start":13,"end":22,"cssClass":"pl-s1"},{"start":23,"end":31,"cssClass":"pl-en"},{"start":33,"end":40,"cssClass":"pl-s"},{"start":42,"end":48,"cssClass":"pl-s"}],[{"start":12,"end":22,"cssClass":"pl-en"},{"start":23,"end":32,"cssClass":"pl-s1"}],[{"start":12,"end":18,"cssClass":"pl-s1"},{"start":19,"end":20,"cssClass":"pl-c1"},{"start":21,"end":31,"cssClass":"pl-en"},{"start":32,"end":41,"cssClass":"pl-s1"},{"start":43,"end":54,"cssClass":"pl-s"}],[{"start":8,"end":12,"cssClass":"pl-k"},{"start":13,"end":22,"cssClass":"pl-s1"},{"start":23,"end":31,"cssClass":"pl-en"},{"start":32,"end":38,"cssClass":"pl-s"}],[{"start":12,"end":22,"cssClass":"pl-en"},{"start":23,"end":32,"cssClass":"pl-s1"}],[{"start":12,"end":18,"cssClass":"pl-s1"},{"start":19,"end":20,"cssClass":"pl-c1"},{"start":21,"end":31,"cssClass":"pl-en"},{"start":32,"end":41,"cssClass":"pl-s1"},{"start":43,"end":58,"cssClass":"pl-s"}],[{"start":8,"end":12,"cssClass":"pl-k"}],[{"start":12,"end":25,"cssClass":"pl-s1"},{"start":26,"end":27,"cssClass":"pl-c1"},{"start":28,"end":64,"cssClass":"pl-s"}],[{"start":12,"end":17,"cssClass":"pl-k"},{"start":18,"end":25,"cssClass":"pl-v"}],[{"start":16,"end":77,"cssClass":"pl-s"},{"start":62,"end":64,"cssClass":"pl-cce"}],[{"start":16,"end":26,"cssClass":"pl-s"},{"start":27,"end":33,"cssClass":"pl-en"},{"start":34,"end":43,"cssClass":"pl-s1"},{"start":45,"end":58,"cssClass":"pl-s1"}],[],[],[{"start":8,"end":10,"cssClass":"pl-k"},{"start":11,"end":14,"cssClass":"pl-en"},{"start":15,"end":21,"cssClass":"pl-s1"},{"start":23,"end":24,"cssClass":"pl-c1"},{"start":25,"end":26,"cssClass":"pl-c1"}],[{"start":12,"end":15,"cssClass":"pl-k"},{"start":16,"end":19,"cssClass":"pl-s1"},{"start":20,"end":22,"cssClass":"pl-c1"},{"start":23,"end":29,"cssClass":"pl-s1"}],[{"start":16,"end":30,"cssClass":"pl-en"},{"start":31,"end":37,"cssClass":"pl-s"},{"start":34,"end":36,"cssClass":"pl-cce"},{"start":38,"end":44,"cssClass":"pl-en"},{"start":45,"end":48,"cssClass":"pl-s1"}],[{"start":16,"end":25,"cssClass":"pl-s1"},{"start":26,"end":28,"cssClass":"pl-c1"},{"start":29,"end":30,"cssClass":"pl-c1"}],[{"start":8,"end":12,"cssClass":"pl-k"}],[{"start":12,"end":26,"cssClass":"pl-en"},{"start":27,"end":41,"cssClass":"pl-s"},{"start":38,"end":40,"cssClass":"pl-cce"},{"start":42,"end":48,"cssClass":"pl-en"},{"start":49,"end":58,"cssClass":"pl-s1"}],[],[{"start":4,"end":10,"cssClass":"pl-k"},{"start":11,"end":20,"cssClass":"pl-v"},{"start":21,"end":23,"cssClass":"pl-k"},{"start":24,"end":25,"cssClass":"pl-s1"}],[{"start":8,"end":22,"cssClass":"pl-en"},{"start":23,"end":37,"cssClass":"pl-s"},{"start":34,"end":36,"cssClass":"pl-cce"},{"start":38,"end":44,"cssClass":"pl-en"},{"start":45,"end":46,"cssClass":"pl-s1"},{"start":47,"end":56,"cssClass":"pl-s1"},{"start":57,"end":65,"cssClass":"pl-s1"},{"start":67,"end":68,"cssClass":"pl-s1"}],[{"start":4,"end":10,"cssClass":"pl-k"},{"start":11,"end":20,"cssClass":"pl-s1"}],[],[],[{"start":0,"end":3,"cssClass":"pl-k"},{"start":4,"end":16,"cssClass":"pl-en"}],[{"start":4,"end":60,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":4,"end":13,"cssClass":"pl-s1"},{"start":14,"end":15,"cssClass":"pl-c1"},{"start":16,"end":17,"cssClass":"pl-c1"}],[{"start":4,"end":7,"cssClass":"pl-k"},{"start":8,"end":17,"cssClass":"pl-s1"},{"start":18,"end":20,"cssClass":"pl-c1"},{"start":21,"end":24,"cssClass":"pl-s1"},{"start":25,"end":29,"cssClass":"pl-s1"},{"start":30,"end":31,"cssClass":"pl-c1"}],[{"start":8,"end":17,"cssClass":"pl-s1"},{"start":18,"end":20,"cssClass":"pl-c1"},{"start":21,"end":30,"cssClass":"pl-en"},{"start":31,"end":40,"cssClass":"pl-s1"}],[],[{"start":4,"end":10,"cssClass":"pl-k"},{"start":11,"end":20,"cssClass":"pl-s1"}],[],[],[{"start":0,"end":2,"cssClass":"pl-k"},{"start":3,"end":11,"cssClass":"pl-s1"},{"start":12,"end":14,"cssClass":"pl-c1"},{"start":15,"end":25,"cssClass":"pl-s"}],[{"start":4,"end":11,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":4,"end":6,"cssClass":"pl-k"},{"start":7,"end":10,"cssClass":"pl-en"},{"start":11,"end":14,"cssClass":"pl-s1"},{"start":15,"end":19,"cssClass":"pl-s1"},{"start":21,"end":22,"cssClass":"pl-c1"},{"start":23,"end":24,"cssClass":"pl-c1"}],[{"start":8,"end":22,"cssClass":"pl-en"},{"start":23,"end":66,"cssClass":"pl-s"},{"start":63,"end":65,"cssClass":"pl-cce"}],[{"start":8,"end":12,"cssClass":"pl-en"},{"start":13,"end":14,"cssClass":"pl-c1"}],[],[{"start":4,"end":73,"cssClass":"pl-s"}],[{"start":0,"end":7,"cssClass":"pl-s"}],[{"start":4,"end":7,"cssClass":"pl-s1"},{"start":8,"end":12,"cssClass":"pl-en"},{"start":13,"end":25,"cssClass":"pl-en"}]],"csv":null,"csvError":null,"dependabotInfo":{"showConfigurationBanner":false,"configFilePath":null,"networkDependabotPath":"/alx-tools/W3C-Validator/network/updates","dismissConfigurationNoticePath":"/settings/dismiss-notice/dependabot_configuration_notice","configurationNoticeDismissed":null,"repoAlertsPath":"/alx-tools/W3C-Validator/security/dependabot","repoSecurityAndAnalysisPath":"/alx-tools/W3C-Validator/settings/security_analysis","repoOwnerIsOrg":true,"currentUserCanAdminRepo":false},"displayName":"w3c_validator.py","displayUrl":"https://github.com/alx-tools/W3C-Validator/blob/master/w3c_validator.py?raw=true","headerInfo":{"blobSize":"3.17 KB","deleteInfo":{"deleteTooltip":"You must be signed in to make or propose changes"},"editInfo":{"editTooltip":"You must be signed in to make or propose changes"},"ghDesktopPath":"https://desktop.github.com","gitLfsPath":null,"onBranch":true,"shortPath":"ec7ec71","siteNavLoginPath":"/login?return_to=https%3A%2F%2Fgithub.com%2Falx-tools%2FW3C-Validator%2Fblob%2Fmaster%2Fw3c_validator.py","isCSV":false,"isRichtext":false,"toc":null,"lineInfo":{"truncatedLoc":"131","truncatedSloc":"101"},"mode":"executable file"},"image":false,"isCodeownersFile":null,"isPlain":false,"isValidLegacyIssueTemplate":false,"issueTemplateHelpUrl":"https://docs.github.com/articles/about-issue-and-pull-request-templates","issueTemplate":null,"discussionTemplate":null,"language":"Python","languageID":303,"large":false,"loggedIn":false,"newDiscussionPath":"/alx-tools/W3C-Validator/discussions/new","newIssuePath":"/alx-tools/W3C-Validator/issues/new","planSupportInfo":{"repoIsFork":null,"repoOwnedByCurrentUser":null,"requestFullPath":"/alx-tools/W3C-Validator/blob/master/w3c_validator.py","showFreeOrgGatedFeatureMessage":null,"showPlanSupportBanner":null,"upgradeDataAttributes":null,"upgradePath":null},"publishBannersInfo":{"dismissActionNoticePath":"/settings/dismiss-notice/publish_action_from_dockerfile","dismissStackNoticePath":"/settings/dismiss-notice/publish_stack_from_file","releasePath":"/alx-tools/W3C-Validator/releases/new?marketplace=true","showPublishActionBanner":false,"showPublishStackBanner":false},"rawBlobUrl":"https://github.com/alx-tools/W3C-Validator/raw/master/w3c_validator.py","renderImageOrRaw":false,"richText":null,"renderedFileInfo":null,"shortPath":null,"tabSize":8,"topBannersInfo":{"overridingGlobalFundingFile":false,"globalPreferredFundingPath":null,"repoOwner":"alx-tools","repoName":"W3C-Validator","showInvalidCitationWarning":false,"citationHelpUrl":"https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-repository-on-github/about-citation-files","showDependabotConfigurationBanner":false,"actionsOnboardingTip":null},"truncated":false,"viewable":true,"workflowRedirectUrl":null,"symbols":{"timedOut":false,"notAnalyzed":false,"symbols":[{"name":"__print_stdout","kind":"function","identStart":425,"identEnd":439,"extentStart":421,"extentEnd":533,"fullyQualifiedName":"__print_stdout","identUtf16":{"start":{"lineNumber":33,"utf16Col":4},"end":{"lineNumber":33,"utf16Col":18}},"extentUtf16":{"start":{"lineNumber":33,"utf16Col":0},"end":{"lineNumber":36,"utf16Col":48}}},{"name":"__print_stderr","kind":"function","identStart":540,"identEnd":554,"extentStart":536,"extentEnd":648,"fullyQualifiedName":"__print_stderr","identUtf16":{"start":{"lineNumber":39,"utf16Col":4},"end":{"lineNumber":39,"utf16Col":18}},"extentUtf16":{"start":{"lineNumber":39,"utf16Col":0},"end":{"lineNumber":42,"utf16Col":48}}},{"name":"__is_empty","kind":"function","identStart":655,"identEnd":665,"extentStart":651,"extentEnd":765,"fullyQualifiedName":"__is_empty","identUtf16":{"start":{"lineNumber":45,"utf16Col":4},"end":{"lineNumber":45,"utf16Col":14}},"extentUtf16":{"start":{"lineNumber":45,"utf16Col":0},"end":{"lineNumber":47,"utf16Col":57}}},{"name":"__validate","kind":"function","identStart":772,"identEnd":782,"extentStart":768,"extentEnd":1627,"fullyQualifiedName":"__validate","identUtf16":{"start":{"lineNumber":50,"utf16Col":4},"end":{"lineNumber":50,"utf16Col":14}},"extentUtf16":{"start":{"lineNumber":50,"utf16Col":0},"end":{"lineNumber":73,"utf16Col":14}}},{"name":"__analyse","kind":"function","identStart":1634,"identEnd":1643,"extentStart":1630,"extentEnd":2765,"fullyQualifiedName":"__analyse","identUtf16":{"start":{"lineNumber":76,"utf16Col":4},"end":{"lineNumber":76,"utf16Col":13}},"extentUtf16":{"start":{"lineNumber":76,"utf16Col":0},"end":{"lineNumber":108,"utf16Col":20}}},{"name":"__files_loop","kind":"function","identStart":2772,"identEnd":2784,"extentStart":2768,"extentEnd":2973,"fullyQualifiedName":"__files_loop","identUtf16":{"start":{"lineNumber":111,"utf16Col":4},"end":{"lineNumber":111,"utf16Col":16}},"extentUtf16":{"start":{"lineNumber":111,"utf16Col":0},"end":{"lineNumber":118,"utf16Col":20}}}]}},"copilotInfo":null,"copilotAccessAllowed":false,"csrf_tokens":{"/alx-tools/W3C-Validator/branches":{"post":"Qdcc--cZmjNSdliu2MqlYefNBnSjhEeMHwhwd9Bec5QzRWDImAH6Rc4DeBVbZrV1CUdfNzx9RIJfErTFDFHUdg"},"/repos/preferences":{"post":"jV-y6hX8hAgr6rNmt60mkt2mnLwj9fEFfkEWz3bre-BzUZ7EsLIoGE45pDtBGJ7wEjm3pRYrxq5b_TRdzVyOTQ"}}},"title":"W3C-Validator/w3c_validator.py at master · alx-tools/W3C-Validator"}
+#!/usr/bin/python3
+"""
+W3C validator for Holberton School
+
+For HTML and CSS files.
+
+Based on 1 API:
+- https://validator.w3.org/docs/api.html
+
+Usage:
+
+Simple file:
+
+```
+./w3c_validator.py index.html
+```
+
+Multiple files:
+
+```
+./w3c_validator.py index.html header.html styles/common.css
+```
+
+All errors are printed in `STDERR`
+
+Return:
+Exit status is the # of errors, 0 on Success
+"""
+import sys
+import requests
+import os
+
+
+def __print_stdout(msg):
+    """Print message in STDOUT
+    """
+    sys.stdout.buffer.write(msg.encode('utf-8'))
+
+
+def __print_stderr(msg):
+    """Print message in STDERR
+    """
+    sys.stderr.buffer.write(msg.encode('utf-8'))
+
+
+def __is_empty(file):
+    if os.path.getsize(file) == 0:
+        raise OSError("File '{}' is empty.".format(file))
+
+
+def __validate(file_path, type):
+    """
+    Start validation of files
+    """
+    h = {'Content-Type': "{}; charset=utf-8".format(type)}
+    # Open files in binary mode:
+    # https://requests.readthedocs.io/en/master/user/advanced/
+    d = open(file_path, "rb").read()
+    u = "https://validator.w3.org/nu/?out=json"
+    r = requests.post(u, headers=h, data=d)
+
+    if not r.status_code < 400:
+        raise ConnectionError("Unable to connect to API endpoint.")
+
+    res = []
+    messages = r.json().get('messages', [])
+    for m in messages:
+        # Capture files that have incomplete or broken HTML
+        if m['type'] == 'error' or m['type'] == 'info':
+            res.append("'{}' => {}".format(file_path, m['message']))
+        else:
+            res.append("[{}:{}] {}".format(
+                file_path, m['lastLine'], m['message']))
+    return res
+
+
+def __analyse(file_path):
+    """Start analyse of a file and print the result
+    """
+    nb_errors = 0
+    try:
+        result = None
+
+        if file_path.endswith(".css"):
+            __is_empty(file_path)
+            result = __validate(file_path, "text/css")
+        elif file_path.endswith((".html", ".htm")):
+            __is_empty(file_path)
+            result = __validate(file_path, "text/html")
+        elif file_path.endswith(".svg"):
+            __is_empty(file_path)
+            result = __validate(file_path, "image/svg+xml")
+        else:
+            allowed_files = "'.css', '.html', '.htm' and '.svg'"
+            raise OSError(
+                "File {} does not have a valid file extension.\nOnly {} are "
+                "allowed.".format(file_path, allowed_files)
+            )
+
+        if len(result) > 0:
+            for msg in result:
+                __print_stderr("{}\n".format(msg))
+                nb_errors += 1
+        else:
+            __print_stdout("'{}' => OK\n".format(file_path))
+
+    except Exception as e:
+        __print_stderr("'{}' => {}\n".format(e.__class__.__name__, e))
+    return nb_errors
+
+
+def __files_loop():
+    """Loop that analyses for each file from input arguments
+    """
+    nb_errors = 0
+    for file_path in sys.argv[1:]:
+        nb_errors += __analyse(file_path)
+
+    return nb_errors
+
+
+if __name__ == "__main__":
+    """Main
+    """
+    if len(sys.argv) < 2:
+        __print_stderr("usage: w3c_validator.py file1 file2 ...\n")
+        exit(1)
+
+    """execute tests, then exit. Exit status = # of errors (0 on success)
+    """
+    sys.exit(__files_loop())
