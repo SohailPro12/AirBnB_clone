@@ -56,8 +56,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, line):
         """
-        Prints the string representation of an instance
-        based on the class name and id.
+        Displays a textual representation of an object
+        given its class name and identifier.
         """
         args = line.split()
 
@@ -111,11 +111,45 @@ class HBNBCommand(cmd.Cmd):
             Theclass_name = arguments[0]
             if Theclass_name in HBNBCommand.classes:
                 self.do_all(Theclass_name)
+
         elif '.' in line and 'count()' in line:
             arguments = line.split(".")
             Theclass_name = arguments[0]
             if Theclass_name in HBNBCommand.classes:
                 self.do_count(Theclass_name)
+
+        elif '.' in line and 'show' in line:
+            line = line.replace(".", " ").replace("(", " ")
+            line = line.replace(")", "").replace("\"", "")
+            arguments = line.split(" ")
+            Theclass_name = arguments[0]
+            Theclass_id = arguments[2]
+            new_line = Theclass_name + " " + Theclass_id
+            if Theclass_name in HBNBCommand.classes:
+                self.do_show(new_line)
+
+        elif '.' in line and 'destroy' in line:
+            line = line.replace(".", " ").replace("(", " ")
+            line = line.replace(")", "").replace("\"", "")
+            arguments = line.split(" ")
+            Theclass_name = arguments[0]
+            Theclass_id = arguments[2]
+            new_line = Theclass_name + " " + Theclass_id
+            if Theclass_name in HBNBCommand.classes:
+                self.do_destroy(new_line)
+
+        elif '.' in line and 'update' in line:
+            line = line.replace(".", " ").replace("(", " ")
+            line = line.replace(")", "").replace("\"", "")
+            arguments = line.split(" ")
+            Theclass_name = arguments[0]
+            Theclass_id = arguments[2]
+            attribute_name = arguments[3]
+            attribute_value = arguments[4]
+            new_line = (Theclass_name + " " + Theclass_id + " " +
+                        attribute_name + " " + attribute_value)
+            if Theclass_name in HBNBCommand.classes:
+                self.do_update(new_line)
 
     def do_count(self, arg):
         """
@@ -150,8 +184,9 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, line):
         """
-        Updates an instance based on the class name and id
-        by adding or updating attribute.
+        Modifies an object based on its class name
+        and ID, either by adding new attributes
+        or updating existing ones.
         """
         args = line.split()
         if not args:
