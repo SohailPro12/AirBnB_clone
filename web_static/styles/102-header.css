@@ -1,0 +1,32 @@
+header { 
+    background-color:white;
+    height: 60%;
+    width: 100%;
+    border-top: 100%;
+    border-bottom: 1px #CCCCCC;
+}
+header .logo {
+    background-image: url("../images/logo.png");
+    align-items: left;
+    height: 70px;
+    width: 100%;
+    border-bottom:  1px #CCCCCC;
+    background-repeat: no-repeat;
+    background-size: contain;
+    
+}
+@media only screen and (min-width: 600px) {
+
+}
+@media only screen and (min-width: 768px) {
+    header {
+        background-position: left;
+        background-position-x: 1rem;
+    }
+    .mobile_nav {
+      display: none;
+    }
+}
+@media only screen and (min-width: 992px) {
+
+}
